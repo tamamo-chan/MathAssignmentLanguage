@@ -1,0 +1,32 @@
+grammar dk.sdu.mmmi.mdsd.MathAssignmentLanguage with org.eclipse.xtext.common.Terminals
+
+generate mathAssignmentLanguage "http://www.sdu.dk/mmmi/mdsd/MathAssignmentLanguage"
+
+MathExp:
+	'result' 'is' exp=Exp
+;
+
+Exp: // Illegal due to left recursion
+	left=Primary (operator=ExpOp right=Exp1)?
+;
+
+
+Exp1:
+	left=Primary (operator=ExpOp right=Exp1)?
+;
+
+ExpOp:
+	{Plus} '+' | {Minus} '-' | {Mult} '*' | {Div} '/'	
+;
+
+Primary:
+	Number | Parenthesis
+;
+
+Parenthesis:
+	'(' exp=Exp ')'
+;
+
+Number:
+	value=INT
+;
